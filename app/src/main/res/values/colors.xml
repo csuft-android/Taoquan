@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#F5A623</color>
+    <color name="colorPrimaryDark">#F5A623</color>
+    <color name="colorAccent">#F5A623</color>
+    <color name="colorGrey">#7B7B7B</color>
+
+    <color name="colorTabSelected">#ffffff</color>
+    <color name="colorTabNormal">#aaffffff</color>
+    <color name="colorTmall">#D0021B</color>
+    <color name="colorPageBg">#EFEEEE</color>
+    <color name="colorEEEEEE">#EFEEEE</color>
+</resources>
