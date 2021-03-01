@@ -14,13 +14,13 @@
         android:text="测试toast"
         android:textAllCaps="false" />
 
-    <com.sunofbeaches.taobaounion.ui.custom.LoadingView
+    <com.CSUFT.taoquan.ui.custom.LoadingView
         android:id="@+id/test_loading"
         android:layout_width="33dp"
         android:layout_height="33dp"
         android:layout_below="@id/test_toast_btn" />
 
-    <com.sunofbeaches.taobaounion.ui.custom.TextFlowLayout
+    <com.CSUFT.taoquan.ui.custom.TextFlowLayout
         android:id="@+id/test_flow_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

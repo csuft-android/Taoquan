@@ -37,7 +37,7 @@
                         android:layout_height="125dp"
                         android:layout_marginBottom="14dp">
 
-                        <com.sunofbeaches.taobaounion.ui.custom.AutoLoopViewPager
+                        <com.CSUFT.taoquan.ui.custom.AutoLoopViewPager
                             android:id="@+id/looper_pager"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
