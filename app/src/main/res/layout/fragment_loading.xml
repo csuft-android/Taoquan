@@ -5,7 +5,7 @@
     android:gravity="center"
     android:orientation="vertical">
 
-    <com.csuft.taoquan.ui.custom.LoadingView
+    <com.CSUFT.taoquan.ui.custom.LoadingView
         android:layout_width="33dp"
         android:layout_height="33dp" />
 
