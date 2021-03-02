@@ -39,7 +39,7 @@
             android:src="@mipmap/no_image" />
 
 
-        <com.CSUFT.taoquan.ui.custom.LoadingView
+        <com.csuft.taoquan.ui.custom.LoadingView
             android:id="@+id/ticket_cover_loading"
             android:layout_width="33dp"
             android:layout_height="33dp"
