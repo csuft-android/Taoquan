@@ -6,12 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.csuft.taoquan.ui.activity.SearchActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.csuft.taoquan.R;
 import com.csuft.taoquan.base.BaseFragment;
 import com.csuft.taoquan.model.domain.Categories;
 import com.csuft.taoquan.presenter.IHomePresenter;
-import com.csuft.taoquan.ui.activity.IMainActivity;
 import com.csuft.taoquan.ui.activity.ScanQrCodeActivity;
 import com.csuft.taoquan.ui.adapter.HomePagerAdapter;
 import com.csuft.taoquan.utils.LogUtils;
@@ -69,6 +69,7 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
         mHomePagerAdapter = new HomePagerAdapter(getChildFragmentManager());
         //设置适配器
         homePager.setAdapter(mHomePagerAdapter);
+
     }
 
     @Override
@@ -80,6 +81,13 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
                 startActivity(new Intent(getContext(),ScanQrCodeActivity.class));
             }
         });
+        mSearchInputBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //跳转到搜索页面
+                startActivity(new Intent(getContext(), SearchActivity.class));
+            }
+        });
     }
 
     @Override
@@ -87,16 +95,6 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
         //创建Presenter
         mHomePresenter = PresenterManager.getInstance().getHomePresenter();
         mHomePresenter.registerViewCallback(this);
-        mSearchInputBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //跳转到搜索页面
-                FragmentActivity activity = getActivity();
-                if(activity instanceof IMainActivity) {
-                    ((IMainActivity) activity).switch2Search();
-                }
-            }
-        });
     }
 
     @Override

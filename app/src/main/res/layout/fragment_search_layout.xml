@@ -9,6 +9,15 @@
         android:layout_height="40dp"
         android:background="@color/colorPrimary">
 
+        <ImageView
+            android:id="@+id/search_back_press"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="10dp"
+            android:paddingRight="20dp"
+            android:src="@mipmap/back" />
+
         <TextView
             android:id="@+id/search_btn"
             android:layout_width="wrap_content"
@@ -16,9 +25,9 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:gravity="center"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:text="取消"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:text="搜索"
             android:textColor="@color/white" />
 
         <EditText
@@ -26,8 +35,8 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
             android:layout_toLeftOf="@id/search_btn"
+            android:layout_toRightOf="@+id/search_back_press"
             android:background="@drawable/shape_edit_box_bg"
             android:focusable="true"
             android:hint="@string/text_search_tips"

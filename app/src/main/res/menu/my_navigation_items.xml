@@ -12,8 +12,4 @@
         android:id="@+id/red_packet"
         android:icon="@mipmap/red_packet_normal"
         android:title="@string/text_red_packet" />
-    <item
-        android:id="@+id/search"
-        android:icon="@mipmap/search_normal"
-        android:title="@string/text_search" />
 </menu>
