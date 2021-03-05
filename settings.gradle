@@ -1,2 +1,2 @@
 include ':app', ':refreshlibrary'
-rootProject.name = 'TaobaoUnion'
+rootProject.name = 'Taoquan'

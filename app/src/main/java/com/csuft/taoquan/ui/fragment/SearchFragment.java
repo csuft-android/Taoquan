@@ -1,5 +1,6 @@
 package com.csuft.taoquan.ui.fragment;
 
+import android.app.Activity;
 import android.graphics.Rect;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -13,7 +14,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.csuft.taoquan.ui.activity.SearchActivity;
+import com.csuft.taoquan.presenter.impl.IBackFragment;
+import com.csuft.taoquan.ui.activity.IMainActivity;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.csuft.taoquan.R;
@@ -43,7 +45,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 
 
-public class SearchFragment extends BaseFragment implements ISearchPageCallback, TextFlowLayout.OnFlowTextItemClickListener {
+public class SearchFragment extends BaseFragment implements IBackFragment, ISearchPageCallback, TextFlowLayout.OnFlowTextItemClickListener {
 
 
     @BindView(R.id.search_history_view)
@@ -127,6 +129,7 @@ public class SearchFragment extends BaseFragment implements ISearchPageCallback,
     protected void initListener() {
         mHistoriesView.setOnFlowTextItemClickListener(this);
         mRecommendView.setOnFlowTextItemClickListener(this);
+        getActivity().onBackPressed();
         mSearchBackBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -135,7 +138,10 @@ public class SearchFragment extends BaseFragment implements ISearchPageCallback,
                     //回到历史记录界面
                     switch2HistoryPage();
                 } else {
-                    getActivity().finish();
+                    FragmentActivity activity = getActivity();
+                    if(activity instanceof IMainActivity) {
+                        ((IMainActivity) activity).backToHome();;
+                    }
                 }
             }
         });
@@ -396,5 +402,17 @@ public class SearchFragment extends BaseFragment implements ISearchPageCallback,
             mSearchInputBox.setSelection(text.length(),text.length());
             mSearchPresenter.doSearch(text);
         }
+    }
+
+    @Override
+    public boolean onBackPressed() {
+//        if (i==1) {
+//            //action not popBackStack
+//            return true;
+//        } else {
+//            return false;
+//        }
+        mSearchBackBtn.callOnClick();
+        return false;
     }
 }

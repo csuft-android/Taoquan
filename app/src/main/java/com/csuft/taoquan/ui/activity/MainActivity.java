@@ -6,6 +6,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.csuft.taoquan.presenter.impl.IBackFragment;
+import com.csuft.taoquan.utils.SizeUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.csuft.taoquan.R;
 import com.csuft.taoquan.base.BaseActivity;
@@ -16,18 +18,54 @@ import com.csuft.taoquan.ui.fragment.SearchFragment;
 import com.csuft.taoquan.ui.fragment.SelectedFragment;
 import com.csuft.taoquan.utils.LogUtils;
 
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity {
+public class MainActivity extends BaseActivity implements IMainActivity{
 
     @BindView(R.id.main_navigation_bar)
     public BottomNavigationView mNavigationView;
     private HomeFragment mHomeFragment;
     private OnSellFragment mRedPacketFragment;
     private SelectedFragment mSelectedFragment;
+    private SearchFragment mSearchFragment;
     private FragmentManager mFm;
+    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
+
+    /**
+     * 跳转到搜索界面
+     */
+    public void addSearchFragment() {
+        mNavigationView.setVisibility(View.GONE);
+        lp.setMargins(0,0,0,0);
+        findViewById(R.id.main_page_container).setLayoutParams(lp);
+        FragmentTransaction fragmentTransaction = mFm.beginTransaction();
+        fragmentTransaction.hide(lastOneFragment);
+        fragmentTransaction.add(R.id.main_page_container,
+                mSearchFragment).addToBackStack(null).commit();
+    }
+
+    @Override
+    public void backToHome() {
+        lp.setMargins(0,0,0, SizeUtils.dip2px(getBaseContext(),49));
+        findViewById(R.id.main_page_container).setLayoutParams(lp);
+        mNavigationView.setVisibility(View.VISIBLE);
+        FragmentTransaction fragmentTransaction = mFm.beginTransaction();
+        fragmentTransaction.show(lastOneFragment);
+        mFm.popBackStack();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_page_container);
+        if (!(fragment instanceof IBackFragment) ) {
+            super.onBackPressed();
+        } else{
+            ((IBackFragment) fragment).onBackPressed();
+        }
+    }
 
     @Override
     protected void initPresenter() {
@@ -54,6 +92,7 @@ public class MainActivity extends BaseActivity {
         mHomeFragment = new HomeFragment();
         mRedPacketFragment = new OnSellFragment();
         mSelectedFragment = new SelectedFragment();
+        mSearchFragment = new SearchFragment();
         mFm = getSupportFragmentManager();
         switchFragment(mHomeFragment);
     }

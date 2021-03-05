@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.csuft.taoquan.ui.activity.SearchActivity;
+import com.csuft.taoquan.ui.activity.IMainActivity;
 import com.google.android.material.tabs.TabLayout;
 import com.csuft.taoquan.R;
 import com.csuft.taoquan.base.BaseFragment;
@@ -85,7 +85,10 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
             @Override
             public void onClick(View v) {
                 //跳转到搜索页面
-                startActivity(new Intent(getContext(), SearchActivity.class));
+                FragmentActivity activity = getActivity();
+                if(activity instanceof IMainActivity) {
+                    ((IMainActivity) activity).addSearchFragment();
+                }
             }
         });
     }

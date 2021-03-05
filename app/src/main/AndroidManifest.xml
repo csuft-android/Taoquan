@@ -28,7 +28,6 @@
         <activity android:name="com.csuft.taoquan.ui.activity.ScanQrCodeActivity">
 
         </activity>
-        <activity android:name=".ui.activity.SearchActivity"></activity>
     </application>
 
 </manifest>
