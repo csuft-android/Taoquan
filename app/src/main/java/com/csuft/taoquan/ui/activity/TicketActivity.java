@@ -110,7 +110,7 @@ public class TicketActivity extends BaseActivity implements ITicketPagerCallback
                 LogUtils.d(TicketActivity.this,"ticketCode --- > " + ticketCode);
                 ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
                 //复制到粘贴板
-                ClipData clipData = ClipData.newPlainText("sob_taobao_ticket_code",ticketCode);
+                ClipData clipData = ClipData.newPlainText("taobao_ticket_code",ticketCode);
                 cm.setPrimaryClip(clipData);
                 //判断有没有淘宝
                 if(mHasTabaoApp) {
