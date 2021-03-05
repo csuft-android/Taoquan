@@ -11,15 +11,6 @@
         android:background="@color/colorPrimaryDark"
         android:gravity="center_vertical">
 
-        <TextView
-            android:id="@+id/logo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:text="淘券"
-            android:textColor="@color/white"
-            android:textSize="20sp" />
-
         <ImageView
             android:id="@+id/scan_icon"
             android:layout_width="wrap_content"
@@ -35,7 +26,6 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
             android:layout_toLeftOf="@id/scan_icon"
-            android:layout_toRightOf="@id/logo"
             android:background="@drawable/shape_edit_box_bg"
             android:focusable="false"
             android:hint="@string/text_search_tips"

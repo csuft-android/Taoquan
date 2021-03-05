@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.csuft.taoquan.ui.activity.SearchActivity;
 import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
 import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.csuft.taoquan.R;
@@ -36,6 +37,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.fragment.app.FragmentActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -73,6 +75,8 @@ public class SearchFragment extends BaseFragment implements ISearchPageCallback,
     @BindView(R.id.search_input_box)
     public EditText mSearchInputBox;
 
+    @BindView(R.id.search_back_press)
+    public ImageView mSearchBackBtn;
 
     @BindView(R.id.search_result_container)
     public TwinklingRefreshLayout mRefreshContainer;
@@ -80,6 +84,8 @@ public class SearchFragment extends BaseFragment implements ISearchPageCallback,
 
     private ISearchPresenter mSearchPresenter;
     private LinearItemContentAdapter mSearchResultAdapter;
+
+
 
     @Override
     protected void initPresenter() {
@@ -121,12 +127,25 @@ public class SearchFragment extends BaseFragment implements ISearchPageCallback,
     protected void initListener() {
         mHistoriesView.setOnFlowTextItemClickListener(this);
         mRecommendView.setOnFlowTextItemClickListener(this);
+        mSearchBackBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(hasInput(false)){
+                    mSearchInputBox.setText("");
+                    //回到历史记录界面
+                    switch2HistoryPage();
+                } else {
+                    getActivity().finish();
+                }
+            }
+        });
         //发起搜索
         mSearchBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //如果有内容搜索
                 //如果输入框没有内容则取消
+
                 if(hasInput(false)) {
                     //发起否所
                     if(mSearchPresenter != null) {
@@ -135,8 +154,10 @@ public class SearchFragment extends BaseFragment implements ISearchPageCallback,
                         KeyboardUtil.hide(getContext(),v);
                     }
                 } else {
+                    ToastUtil.showToast("请输入您想搜索的宝贝...");
                     //隐藏键盘
                     KeyboardUtil.hide(getContext(),v);
+                    mSearchBtn.setText("搜索");
                 }
             }
         });
