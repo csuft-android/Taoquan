@@ -1,2 +1,3 @@
+include ':doctor'
 include ':app', ':refreshlibrary'
 rootProject.name = 'Taoquan'
