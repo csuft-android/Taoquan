@@ -51,5 +51,4 @@ dependencies {
     implementation 'com.google.zxing:core:3.3.2'
     implementation project(path: ':refreshlibrary')
 
-    implementation project(path: ':detector')
 }
