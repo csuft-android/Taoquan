@@ -146,7 +146,7 @@ public class ScanQrCodeActivity extends FragmentActivity {
         //扫描动画初始化
         initScanerAnimation();
         //初始化 CameraManager
-        CameraManager.init(this);
+        CameraManager.init(getApplicationContext());
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
     }
