@@ -1,2 +1,2 @@
-include ':app', ':refreshlibrary'
+include ':app', ':refreshlibrary' ,"detector"
 rootProject.name = 'Taoquan'
