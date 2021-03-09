@@ -1,6 +1,5 @@
 package com.csuft.taoquan.ui.activity;
 
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -10,6 +9,7 @@ import android.widget.Toast;
 
 import com.csuft.taoquan.presenter.impl.IBackFragment;
 import com.csuft.taoquan.utils.SizeUtils;
+import com.csuft.taoquan.utils.ToastUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.csuft.taoquan.R;
 import com.csuft.taoquan.base.BaseActivity;
@@ -59,13 +59,20 @@ public class MainActivity extends BaseActivity implements IMainActivity{
         mFm.popBackStack();
     }
 
+    // 用来计算返回键的点击间隔时间
+    private long exitTime = 0;
     @Override
     public void onBackPressed() {
         Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_page_container);
-        if (!(fragment instanceof IBackFragment) ) {
-            super.onBackPressed();
-        } else{
+        if (fragment instanceof IBackFragment) {
             ((IBackFragment) fragment).onBackPressed();
+        } else{
+            if ((System.currentTimeMillis() - exitTime) > 2000) {
+                ToastUtil.showToast("再按一次退出程序");
+                exitTime = System.currentTimeMillis();
+            } else {
+                finish();
+            }
         }
     }
 
@@ -138,25 +145,6 @@ public class MainActivity extends BaseActivity implements IMainActivity{
         lastOneFragment = targetFragment;
         //fragmentTransaction.replace(R.id.main_page_container,targetFragment);
         fragmentTransaction.commit();
-    }
-
-    // 用来计算返回键的点击间隔时间
-    private long exitTime = 0;
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK
-                && event.getAction() == KeyEvent.ACTION_DOWN) {
-            if ((System.currentTimeMillis() - exitTime) > 2000) {
-                //弹出提示，可以有多种方式
-                Toast.makeText(getApplicationContext(), "再按一次退出程序", Toast.LENGTH_SHORT).show();
-                exitTime = System.currentTimeMillis();
-            } else {
-                finish();
-            }
-            return true;
-        }
-
-        return super.onKeyDown(keyCode, event);
     }
 
 }
