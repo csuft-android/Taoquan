@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.csuft.taoquan.ui.activity.MainActivity">
+        <activity
+            android:name="com.csuft.taoquan.ui.activity.MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
@@ -22,10 +24,12 @@
         </activity>
         <activity
             android:name="com.csuft.taoquan.ui.activity.TicketActivity"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
 
         </activity>
-        <activity android:name="com.csuft.taoquan.ui.activity.ScanQrCodeActivity">
+        <activity android:name="com.csuft.taoquan.ui.activity.ScanQrCodeActivity"
+            android:screenOrientation="portrait">
 
         </activity>
     </application>
