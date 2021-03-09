@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="@dimen/dp_40"
-            android:text="扫描【阳光沙滩二维码】领券"
+            android:text="扫描二维码"
             android:textColor="@android:color/white"
             android:textSize="15sp" />
 
