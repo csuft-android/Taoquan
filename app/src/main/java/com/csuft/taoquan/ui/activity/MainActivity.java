@@ -43,10 +43,7 @@ public class MainActivity extends BaseActivity implements IMainActivity{
         mNavigationView.setVisibility(View.GONE);
         lp.setMargins(0,0,0,0);
         findViewById(R.id.main_page_container).setLayoutParams(lp);
-        FragmentTransaction fragmentTransaction = mFm.beginTransaction();
-        fragmentTransaction.hide(lastOneFragment);
-        fragmentTransaction.add(R.id.main_page_container,
-                mSearchFragment).addToBackStack(null).commit();
+        switchFragment(mSearchFragment);
     }
 
     @Override
@@ -54,16 +51,14 @@ public class MainActivity extends BaseActivity implements IMainActivity{
         lp.setMargins(0,0,0, SizeUtils.dip2px(getBaseContext(),49));
         findViewById(R.id.main_page_container).setLayoutParams(lp);
         mNavigationView.setVisibility(View.VISIBLE);
-        FragmentTransaction fragmentTransaction = mFm.beginTransaction();
-        fragmentTransaction.show(lastOneFragment);
-        mFm.popBackStack();
+        switchFragment(mHomeFragment);
     }
 
     // 用来计算返回键的点击间隔时间
     private long exitTime = 0;
     @Override
     public void onBackPressed() {
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.main_page_container);
+        Fragment fragment = lastOneFragment;
         if (fragment instanceof IBackFragment) {
             ((IBackFragment) fragment).onBackPressed();
         } else{
@@ -71,7 +66,7 @@ public class MainActivity extends BaseActivity implements IMainActivity{
                 ToastUtil.showToast("再按一次退出程序");
                 exitTime = System.currentTimeMillis();
             } else {
-                finish();
+                super.onBackPressed();
             }
         }
     }
