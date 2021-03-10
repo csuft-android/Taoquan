@@ -110,6 +110,7 @@ public class SearchFragment extends BaseFragment implements IBackFragment, ISear
 
     @Override
     protected void release() {
+        super.release();
         if(mSearchPresenter != null) {
             mSearchPresenter.unregisterViewCallback(this);
         }
