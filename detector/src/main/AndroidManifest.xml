@@ -2,4 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.csuft.detector">
 
+    <application>
+        <provider
+            android:authorities="com.csuft.detector"
+            android:name=".PageDetectorInstaller"/>
+    </application>
+
 </manifest>

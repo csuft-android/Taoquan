@@ -3,7 +3,7 @@ package com.csuft.taoquan.base;
 import android.app.Application;
 import android.content.Context;
 
-import com.csuft.detector.PageDetector;
+
 
 public class BaseApplication extends Application {
 
@@ -12,7 +12,6 @@ public class BaseApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-        PageDetector.instance().init(this);
     }
 
     @Override
