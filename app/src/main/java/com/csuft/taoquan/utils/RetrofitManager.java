@@ -4,10 +4,17 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitManager {
-    private static final RetrofitManager ourInstance = new RetrofitManager();
+    private volatile static  RetrofitManager ourInstance;
     private final Retrofit mRetrofit;
 
     public static RetrofitManager getInstance() {
+        if (ourInstance==null) {
+            synchronized (RetrofitManager.class){
+                if (ourInstance==null) {
+                    ourInstance=new RetrofitManager();
+                }
+            }
+        }
         return ourInstance;
     }
 
