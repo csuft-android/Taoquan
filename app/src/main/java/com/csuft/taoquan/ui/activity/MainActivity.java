@@ -8,6 +8,7 @@ import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.csuft.taoquan.presenter.impl.IBackFragment;
+import com.csuft.taoquan.ui.fragment.PersonalCenterFragment;
 import com.csuft.taoquan.utils.SizeUtils;
 import com.csuft.taoquan.utils.ToastUtil;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -33,6 +34,7 @@ public class MainActivity extends BaseActivity implements IMainActivity{
     private OnSellFragment mRedPacketFragment;
     private SelectedFragment mSelectedFragment;
     private SearchFragment mSearchFragment;
+    private PersonalCenterFragment mPersonCenterFragment;
     private FragmentManager mFm;
     RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
 
@@ -97,6 +99,7 @@ public class MainActivity extends BaseActivity implements IMainActivity{
         mRedPacketFragment = new OnSellFragment();
         mSelectedFragment = new SelectedFragment();
         mSearchFragment = new SearchFragment();
+        mPersonCenterFragment =new PersonalCenterFragment();
         mFm = getSupportFragmentManager();
         switchFragment(mHomeFragment);
     }
@@ -112,6 +115,8 @@ public class MainActivity extends BaseActivity implements IMainActivity{
             } else if (item.getItemId() == R.id.red_packet) {
                 LogUtils.w(this, "切换到特惠");
                 switchFragment(mRedPacketFragment);
+            }else if(item.getItemId()==R.id.personal_center){
+                switchFragment(mPersonCenterFragment);
             }
             return true;
         });

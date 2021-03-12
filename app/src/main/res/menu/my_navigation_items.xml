@@ -12,4 +12,8 @@
         android:id="@+id/red_packet"
         android:icon="@mipmap/red_packet_normal"
         android:title="@string/text_red_packet" />
+    <item
+        android:id="@+id/personal_center"
+        android:icon="@mipmap/personal_center_normal"
+        android:title="个人中心"/>
 </menu>
