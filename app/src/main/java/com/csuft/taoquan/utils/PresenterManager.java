@@ -14,7 +14,7 @@ import com.csuft.taoquan.presenter.impl.SelectedPagePresenterImpl;
 import com.csuft.taoquan.presenter.impl.TicketPresenterImpl;
 
 public class PresenterManager {
-    private static final PresenterManager ourInstance = new PresenterManager();
+    private volatile static  PresenterManager ourInstance;
     private final ICategoryPagerPresenter mCategoryPagePresenter;
     private final IHomePresenter mHomePresenter;
     private final ITicketPresenter mTicketPresenter;
@@ -35,6 +35,13 @@ public class PresenterManager {
     }
 
     public static PresenterManager getInstance() {
+        if (ourInstance==null) {
+            synchronized (PresenterManager.class){
+                if (ourInstance==null) {
+                    ourInstance=new PresenterManager();
+                }
+            }
+        }
         return ourInstance;
     }
 
