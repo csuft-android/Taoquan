@@ -91,7 +91,7 @@ public class SearchFragment extends BaseFragment implements IBackFragment, ISear
 
     @Override
     protected void initPresenter() {
-        mSearchPresenter = PresenterManager.getInstance().getSearchPresenter();
+        mSearchPresenter = PresenterManager.instance().getSearchPresenter();
         mSearchPresenter.registerViewCallback(this);
         //获取搜索推荐词
         mSearchPresenter.getRecommendWords();

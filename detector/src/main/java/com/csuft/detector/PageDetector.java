@@ -18,7 +18,7 @@ public class PageDetector {
     private static final String TAG = "PageDetector";
     private WeakReference<Activity> topActivity;
     DetectorActivityCallback detectorActivityCallback;
-    private static PageDetector sPageDetector;
+    private volatile static PageDetector sPageDetector;
     private Application application;
 
     public Application application() {

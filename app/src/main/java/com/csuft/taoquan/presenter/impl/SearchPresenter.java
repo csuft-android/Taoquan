@@ -27,10 +27,10 @@ public class SearchPresenter implements ISearchPresenter {
     private final JsonCacheUtil mJsonCacheUtil;
 
     public SearchPresenter() {
-        RetrofitManager instance = RetrofitManager.getInstance();
+        RetrofitManager instance = RetrofitManager.instance();
         Retrofit retrofit = instance.getRetrofit();
         mApi = retrofit.create(Api.class);
-        mJsonCacheUtil = JsonCacheUtil.getInstance();
+        mJsonCacheUtil = JsonCacheUtil.instance();
     }
 
     public static final int DEFAULT_PAGE = 0;
