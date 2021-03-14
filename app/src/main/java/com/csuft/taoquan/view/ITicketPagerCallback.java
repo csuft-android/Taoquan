@@ -10,5 +10,5 @@ public interface ITicketPagerCallback extends IBaseCallback {
      * @param cover
      * @param result
      */
-    void onTicketLoaded(String cover,TicketResult result);
+    void onTicketLoaded(String cover, TicketResult result);
 }

@@ -1,27 +1,25 @@
 package com.csuft.taoquan.ui.fragment;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.csuft.taoquan.ui.activity.IMainActivity;
-import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.FragmentActivity;
+import androidx.viewpager.widget.ViewPager;
+
 import com.csuft.taoquan.R;
 import com.csuft.taoquan.base.BaseFragment;
 import com.csuft.taoquan.model.domain.Categories;
 import com.csuft.taoquan.presenter.IHomePresenter;
+import com.csuft.taoquan.ui.activity.IMainActivity;
 import com.csuft.taoquan.ui.activity.ScanQrCodeActivity;
 import com.csuft.taoquan.ui.adapter.HomePagerAdapter;
 import com.csuft.taoquan.utils.LogUtils;
 import com.csuft.taoquan.utils.PresenterManager;
 import com.csuft.taoquan.view.IHomeCallback;
+import com.google.android.material.tabs.TabLayout;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.FragmentActivity;
-import androidx.viewpager.widget.ViewPager;
 import butterknife.BindView;
 
 
@@ -48,18 +46,10 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
         return R.layout.fragment_home;
     }
 
-    @Nullable
-    @Override
-    public View onCreateView(@NonNull LayoutInflater inflater,@Nullable ViewGroup container,@Nullable Bundle savedInstanceState) {
-        LogUtils.d(this,"on create view...");
-        return super.onCreateView(inflater,container,savedInstanceState);
-    }
-
-
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        LogUtils.d(this,"on destroy view...");
+        LogUtils.d(this, "on destroy view...");
     }
 
     @Override
@@ -78,7 +68,7 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
             @Override
             public void onClick(View v) {
                 //跳转到扫码界面
-                startActivity(new Intent(getContext(),ScanQrCodeActivity.class));
+                startActivity(new Intent(getContext(), ScanQrCodeActivity.class));
             }
         });
         mSearchInputBox.setOnClickListener(new View.OnClickListener() {
@@ -86,7 +76,7 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
             public void onClick(View v) {
                 //跳转到搜索页面
                 FragmentActivity activity = getActivity();
-                if(activity instanceof IMainActivity) {
+                if (activity instanceof IMainActivity) {
                     ((IMainActivity) activity).addSearchFragment();
                 }
             }
@@ -96,13 +86,13 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
     @Override
     protected void initPresenter() {
         //创建Presenter
-        mHomePresenter = PresenterManager.getInstance().getHomePresenter();
+        mHomePresenter = PresenterManager.instance().getHomePresenter();
         mHomePresenter.registerViewCallback(this);
     }
 
     @Override
-    protected View loadRootView(LayoutInflater inflater,ViewGroup container) {
-        return inflater.inflate(R.layout.base_home_fragment_layout,container,false);
+    protected View loadRootView(LayoutInflater inflater, ViewGroup container) {
+        return inflater.inflate(R.layout.base_home_fragment_layout, container, false);
     }
 
     @Override
@@ -114,9 +104,9 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
     @Override
     public void onCategoriesLoaded(Categories categories) {
         setUpState(State.SUCCESS);
-        LogUtils.d(this,"onCategoriesLoaded..");
+        LogUtils.d(this, "onCategoriesLoaded..");
         //加载的数据就会从这里回来
-        if(mHomePagerAdapter != null) {
+        if (mHomePagerAdapter != null) {
             //homePager.setOffscreenPageLimit(categories.getData().size());
             mHomePagerAdapter.setCategories(categories);
         }
@@ -140,7 +130,7 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
     @Override
     protected void release() {
         //取消回调注册
-        if(mHomePresenter != null) {
+        if (mHomePresenter != null) {
             mHomePresenter.unregisterViewCallback(this);
         }
     }
@@ -149,7 +139,7 @@ public class HomeFragment extends BaseFragment implements IHomeCallback {
     protected void onRetryClick() {
         //网络错误,点击了重试
         //重新加载分类内容
-        if(mHomePresenter != null) {
+        if (mHomePresenter != null) {
             mHomePresenter.getCategories();
         }
     }

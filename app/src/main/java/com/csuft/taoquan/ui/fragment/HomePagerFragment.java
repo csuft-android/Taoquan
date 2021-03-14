@@ -206,7 +206,7 @@ public class HomePagerFragment extends BaseFragment implements ICategoryPagerCal
 
     @Override
     protected void initPresenter() {
-        mPagerPresenter = PresenterManager.getInstance().getCategoryPagePresenter();
+        mPagerPresenter = PresenterManager.instance().getCategoryPagePresenter();
         mPagerPresenter.registerViewCallback(this);
     }
 

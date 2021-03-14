@@ -22,6 +22,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
+import com.csuft.taoquan.base.BaseApplication;
 import com.google.zxing.BarcodeFormat;
 import com.google.zxing.BinaryBitmap;
 import com.google.zxing.DecodeHintType;
@@ -146,7 +147,7 @@ public class ScanQrCodeActivity extends FragmentActivity {
         //扫描动画初始化
         initScanerAnimation();
         //初始化 CameraManager
-        CameraManager.init(getApplicationContext());
+        CameraManager.init(BaseApplication.getAppContext());
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
     }
@@ -155,10 +156,10 @@ public class ScanQrCodeActivity extends FragmentActivity {
         multiFormatReader = new MultiFormatReader();
 
         // 解码的参数
-        Hashtable<DecodeHintType,Object> hints = new Hashtable<DecodeHintType,Object>(2);
+        Hashtable<DecodeHintType, Object> hints = new Hashtable<DecodeHintType, Object>(2);
         // 可以解析的编码类型
         Vector<BarcodeFormat> decodeFormats = new Vector<BarcodeFormat>();
-        if(decodeFormats == null || decodeFormats.isEmpty()) {
+        if (decodeFormats == null || decodeFormats.isEmpty()) {
             decodeFormats = new Vector<BarcodeFormat>();
 
             Vector<BarcodeFormat> PRODUCT_FORMATS = new Vector<BarcodeFormat>(5);
@@ -183,7 +184,7 @@ public class ScanQrCodeActivity extends FragmentActivity {
             decodeFormats.addAll(QR_CODE_FORMATS);
             decodeFormats.addAll(DATA_MATRIX_FORMATS);
         }
-        hints.put(DecodeHintType.POSSIBLE_FORMATS,decodeFormats);
+        hints.put(DecodeHintType.POSSIBLE_FORMATS, decodeFormats);
 
         multiFormatReader.setHints(hints);
     }
@@ -194,19 +195,19 @@ public class ScanQrCodeActivity extends FragmentActivity {
         super.onResume();
         SurfaceView surfaceView = findViewById(R.id.capture_preview);
         SurfaceHolder surfaceHolder = surfaceView.getHolder();
-        if(hasSurface) {
+        if (hasSurface) {
             //Camera初始化
             initCamera(surfaceHolder);
         } else {
             surfaceHolder.addCallback(new SurfaceHolder.Callback() {
                 @Override
-                public void surfaceChanged(SurfaceHolder holder,int format,int width,int height) {
+                public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
 
                 }
 
                 @Override
                 public void surfaceCreated(SurfaceHolder holder) {
-                    if(!hasSurface) {
+                    if (!hasSurface) {
                         hasSurface = true;
                         initCamera(holder);
                     }
@@ -225,7 +226,7 @@ public class ScanQrCodeActivity extends FragmentActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(handler != null) {
+        if (handler != null) {
             handler.quitSynchronously();
             handler.removeCallbacksAndMessages(null);
             handler = null;
@@ -251,9 +252,9 @@ public class ScanQrCodeActivity extends FragmentActivity {
 
     private void initPermission() {
         //请求Camera权限 与 文件读写 权限
-        if(ContextCompat.checkSelfPermission(this,Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED &&
-                ContextCompat.checkSelfPermission(this,Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.CAMERA,Manifest.permission.WRITE_EXTERNAL_STORAGE},1);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED &&
+                ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
         }
     }
 
@@ -283,17 +284,17 @@ public class ScanQrCodeActivity extends FragmentActivity {
 
     public void btn(View view) {
         int viewId = view.getId();
-        if(viewId == R.id.top_mask) {
+        if (viewId == R.id.top_mask) {
             light();
-        } else if(viewId == R.id.top_back) {
+        } else if (viewId == R.id.top_back) {
             finish();
-        } else if(viewId == R.id.top_openpicture) {
+        } else if (viewId == R.id.top_openpicture) {
             RxPhotoTool.openLocalImage(this);
         }
     }
 
     private void light() {
-        if(mFlashing) {
+        if (mFlashing) {
             mFlashing = false;
             // 开闪光灯
             CameraManager.get().openLight();
@@ -315,10 +316,10 @@ public class ScanQrCodeActivity extends FragmentActivity {
             int cropHeight = mCropLayout.getHeight() * height.get() / mContainer.getHeight();
             setCropWidth(cropWidth);
             setCropHeight(cropHeight);
-        } catch(IOException | RuntimeException ioe) {
+        } catch (IOException | RuntimeException ioe) {
             return;
         }
-        if(handler == null) {
+        if (handler == null) {
             handler = new CaptureActivityHandler();
         }
     }
@@ -326,32 +327,32 @@ public class ScanQrCodeActivity extends FragmentActivity {
 
     //--------------------------------------打开本地图片识别二维码 start---------------------------------
     @Override
-    protected void onActivityResult(int requestCode,int resultCode,Intent data) {
-        super.onActivityResult(requestCode,resultCode,data);
-        if(resultCode == Activity.RESULT_OK) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
             ContentResolver resolver = getContentResolver();
             // 照片的原始资源地址
             Uri originalUri = data.getData();
             try {
                 // 使用ContentProvider通过URI获取原始图片
-                Bitmap photo = MediaStore.Images.Media.getBitmap(resolver,originalUri);
+                Bitmap photo = MediaStore.Images.Media.getBitmap(resolver, originalUri);
 
                 // 开始对图像资源解码
                 Result rawResult = RxQrBarTool.decodeFromPhoto(photo);
-                if(rawResult != null) {
-                    if(mScannerListener == null) {
+                if (rawResult != null) {
+                    if (mScannerListener == null) {
                         initDialogResult(rawResult);
                     } else {
-                        mScannerListener.onSuccess("From to Picture",rawResult);
+                        mScannerListener.onSuccess("From to Picture", rawResult);
                     }
                 } else {
-                    if(mScannerListener == null) {
+                    if (mScannerListener == null) {
                         RxToast.error("图片识别失败.");
                     } else {
-                        mScannerListener.onFail("From to Picture","图片识别失败");
+                        mScannerListener.onFail("From to Picture", "图片识别失败");
                     }
                 }
-            } catch(IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -363,14 +364,14 @@ public class ScanQrCodeActivity extends FragmentActivity {
         BarcodeFormat type = result.getBarcodeFormat();
         String realContent = result.getText();
 
-        if(rxDialogSure == null) {
+        if (rxDialogSure == null) {
             //提示弹窗
             rxDialogSure = new RxDialogSure(this);
         }
 
-        if(BarcodeFormat.QR_CODE.equals(type)) {
+        if (BarcodeFormat.QR_CODE.equals(type)) {
             rxDialogSure.setTitle("二维码扫描结果");
-        } else if(BarcodeFormat.EAN_13.equals(type)) {
+        } else if (BarcodeFormat.EAN_13.equals(type)) {
             rxDialogSure.setTitle("条形码扫描结果");
         } else {
             rxDialogSure.setTitle("扫描结果");
@@ -386,32 +387,32 @@ public class ScanQrCodeActivity extends FragmentActivity {
         rxDialogSure.setOnCancelListener(new DialogInterface.OnCancelListener() {
             @Override
             public void onCancel(DialogInterface dialog) {
-                if(handler != null) {
+                if (handler != null) {
                     // 连续扫描，不发送此消息扫描一次结束后就不能再次扫描
                     handler.sendEmptyMessage(R.id.restart_preview);
                 }
             }
         });
 
-        if(!rxDialogSure.isShowing()) {
+        if (!rxDialogSure.isShowing()) {
             rxDialogSure.show();
         }
 
-        RxSPTool.putContent(this,RxConstants.SP_SCAN_CODE,RxDataTool.stringToInt(RxSPTool.getContent(this,RxConstants.SP_SCAN_CODE)) + 1 + "");
+        RxSPTool.putContent(this, RxConstants.SP_SCAN_CODE, RxDataTool.stringToInt(RxSPTool.getContent(this, RxConstants.SP_SCAN_CODE)) + 1 + "");
     }
 
     public void handleDecode(Result result) {
         inactivityTimer.onActivity();
         //扫描成功之后的振动与声音提示
-        RxBeepTool.playBeep(this,vibrate);
+        RxBeepTool.playBeep(this, vibrate);
 
         final String result1 = result.getText();
-        Log.v("二维码/条形码 扫描结果",result1);
+        Log.v("二维码/条形码 扫描结果", result1);
         //处理扫描结果
-        if(result1.contains("taobao.com")) {
+        if (result1.contains("taobao.com")) {
             //属于我们淘宝联盟的二维码
             //跳转到淘口令界面
-            TicketUtil.toTicketPage(this,new IBaseInfo() {
+            TicketUtil.toTicketPage(this, new IBaseInfo() {
                 @Override
                 public String getCover() {
                     return null;
@@ -456,18 +457,18 @@ public class ScanQrCodeActivity extends FragmentActivity {
 
         @Override
         public void handleMessage(Message message) {
-            if(message.what == R.id.auto_focus) {
-                if(state == State.PREVIEW) {
-                    CameraManager.get().requestAutoFocus(this,R.id.auto_focus);
+            if (message.what == R.id.auto_focus) {
+                if (state == State.PREVIEW) {
+                    CameraManager.get().requestAutoFocus(this, R.id.auto_focus);
                 }
-            } else if(message.what == R.id.restart_preview) {
+            } else if (message.what == R.id.restart_preview) {
                 restartPreviewAndDecode();
-            } else if(message.what == R.id.decode_succeeded) {
+            } else if (message.what == R.id.decode_succeeded) {
                 state = State.SUCCESS;
                 handleDecode((Result) message.obj);// 解析成功，回调
-            } else if(message.what == R.id.decode_failed) {
+            } else if (message.what == R.id.decode_failed) {
                 state = State.PREVIEW;
-                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(),R.id.decode);
+                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
             }
         }
 
@@ -475,11 +476,11 @@ public class ScanQrCodeActivity extends FragmentActivity {
             state = State.DONE;
             decodeThread.interrupt();
             CameraManager.get().stopPreview();
-            Message quit = Message.obtain(decodeThread.getHandler(),R.id.quit);
+            Message quit = Message.obtain(decodeThread.getHandler(), R.id.quit);
             quit.sendToTarget();
             try {
                 decodeThread.join();
-            } catch(InterruptedException e) {
+            } catch (InterruptedException e) {
                 e.printStackTrace();
             } finally {
                 removeMessages(R.id.decode_succeeded);
@@ -491,10 +492,10 @@ public class ScanQrCodeActivity extends FragmentActivity {
         }
 
         private void restartPreviewAndDecode() {
-            if(state == State.SUCCESS) {
+            if (state == State.SUCCESS) {
                 state = State.PREVIEW;
-                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(),R.id.decode);
-                CameraManager.get().requestAutoFocus(this,R.id.auto_focus);
+                CameraManager.get().requestPreviewFrame(decodeThread.getHandler(), R.id.decode);
+                CameraManager.get().requestAutoFocus(this, R.id.auto_focus);
             }
         }
     }
@@ -511,7 +512,7 @@ public class ScanQrCodeActivity extends FragmentActivity {
         Handler getHandler() {
             try {
                 handlerInitLatch.await();
-            } catch(InterruptedException ie) {
+            } catch (InterruptedException ie) {
                 // continue?
             }
             return handler;
@@ -532,9 +533,9 @@ public class ScanQrCodeActivity extends FragmentActivity {
 
         @Override
         public void handleMessage(Message message) {
-            if(message.what == R.id.decode) {
-                decode((byte[]) message.obj,message.arg1,message.arg2);
-            } else if(message.what == R.id.quit) {
+            if (message.what == R.id.decode) {
+                decode((byte[]) message.obj, message.arg1, message.arg2);
+            } else if (message.what == R.id.quit) {
                 Looper.myLooper().quit();
             }
         }
@@ -542,14 +543,14 @@ public class ScanQrCodeActivity extends FragmentActivity {
 
     private MultiFormatReader multiFormatReader;
 
-    private void decode(byte[] data,int width,int height) {
+    private void decode(byte[] data, int width, int height) {
         long start = System.currentTimeMillis();
         Result rawResult = null;
 
         //modify here
         byte[] rotatedData = new byte[data.length];
-        for(int y = 0; y < height; y++) {
-            for(int x = 0; x < width; x++) {
+        for (int y = 0; y < height; y++) {
+            for (int x = 0; x < width; x++) {
                 rotatedData[x * height + height - y - 1] = data[x + y * width];
             }
         }
@@ -558,27 +559,27 @@ public class ScanQrCodeActivity extends FragmentActivity {
         width = height;
         height = tmp;
 
-        PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(rotatedData,width,height);
+        PlanarYUVLuminanceSource source = CameraManager.get().buildLuminanceSource(rotatedData, width, height);
         BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
         try {
             rawResult = multiFormatReader.decodeWithState(bitmap);
-        } catch(ReaderException e) {
+        } catch (ReaderException e) {
             // continue
         } finally {
             multiFormatReader.reset();
         }
 
-        if(rawResult != null) {
+        if (rawResult != null) {
             long end = System.currentTimeMillis();
-            Log.d(TAG,"Found barcode (" + (end - start) + " ms):\n" + rawResult.toString());
-            Message message = Message.obtain(handler,R.id.decode_succeeded,rawResult);
+            Log.d(TAG, "Found barcode (" + (end - start) + " ms):\n" + rawResult.toString());
+            Message message = Message.obtain(handler, R.id.decode_succeeded, rawResult);
             Bundle bundle = new Bundle();
-            bundle.putParcelable("barcode_bitmap",source.renderCroppedGreyscaleBitmap());
+            bundle.putParcelable("barcode_bitmap", source.renderCroppedGreyscaleBitmap());
             message.setData(bundle);
             //Log.d(TAG, "Sending decode succeeded message...");
             message.sendToTarget();
         } else {
-            Message message = Message.obtain(handler,R.id.decode_failed);
+            Message message = Message.obtain(handler, R.id.decode_failed);
             message.sendToTarget();
         }
     }

@@ -64,9 +64,13 @@ public class JsonCacheUtil {
 
     private static JsonCacheUtil sJsonCacheUtil = null;
 
-    public static JsonCacheUtil getInstance() {
+    public static JsonCacheUtil instance() {
         if(sJsonCacheUtil == null) {
-            sJsonCacheUtil = new JsonCacheUtil();
+            synchronized (JsonCacheUtil.class){
+                if(sJsonCacheUtil==null){
+                    sJsonCacheUtil = new JsonCacheUtil();
+                }
+            }
         }
         return sJsonCacheUtil;
     }

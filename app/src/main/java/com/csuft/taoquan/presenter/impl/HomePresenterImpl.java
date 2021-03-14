@@ -20,24 +20,24 @@ public class HomePresenterImpl implements IHomePresenter {
 
     @Override
     public void getCategories() {
-        if(mCallback != null) {
+        if (mCallback != null) {
             mCallback.onLoading();
         }
         //加载分类数据
-        Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
+        Retrofit retrofit = RetrofitManager.instance().getRetrofit();
         Api api = retrofit.create(Api.class);
         Call<Categories> task = api.getCategories();
         task.enqueue(new Callback<Categories>() {
             @Override
-            public void onResponse(Call<Categories> call,Response<Categories> response) {
+            public void onResponse(Call<Categories> call, Response<Categories> response) {
                 //数据结果
                 int code = response.code();
-                LogUtils.d(HomePresenterImpl.this,"result code is -- > " + code);
-                if(code == HttpURLConnection.HTTP_OK) {
+                LogUtils.d(HomePresenterImpl.this, "result code is -- > " + code);
+                if (code == HttpURLConnection.HTTP_OK) {
                     //请求成功
                     Categories categories = response.body();
-                    if(mCallback != null) {
-                        if(categories == null || categories.getData().size() == 0) {
+                    if (mCallback != null) {
+                        if (categories == null || categories.getData().size() == 0) {
                             mCallback.onEmpty();
                         } else {
                             //LogUtils.d(HomePresenterImpl.this,categories.toString());
@@ -46,18 +46,18 @@ public class HomePresenterImpl implements IHomePresenter {
                     }
                 } else {
                     //请求失败
-                    LogUtils.i(HomePresenterImpl.this,"请求失败...");
-                    if(mCallback != null) {
+                    LogUtils.i(HomePresenterImpl.this, "请求失败...");
+                    if (mCallback != null) {
                         mCallback.onError();
                     }
                 }
             }
 
             @Override
-            public void onFailure(Call<Categories> call,Throwable t) {
+            public void onFailure(Call<Categories> call, Throwable t) {
                 //加载失败的结果
-                LogUtils.e(HomePresenterImpl.this,"请求错误..." + t);
-                if(mCallback != null) {
+                LogUtils.e(HomePresenterImpl.this, "请求错误..." + t);
+                if (mCallback != null) {
                     mCallback.onError();
                 }
             }

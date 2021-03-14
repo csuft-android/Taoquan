@@ -54,7 +54,7 @@ public class SelectedFragment extends BaseFragment
     @Override
     protected void initPresenter() {
         super.initPresenter();
-        mSelectedPagePresenter = PresenterManager.getInstance().getSelectedPagePresenter();
+        mSelectedPagePresenter = PresenterManager.instance().getSelectedPagePresenter();
         mSelectedPagePresenter.registerViewCallback(this);
         mSelectedPagePresenter.getCategories();
     }

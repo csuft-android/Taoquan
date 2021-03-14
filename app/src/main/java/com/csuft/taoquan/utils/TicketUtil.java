@@ -21,7 +21,7 @@ public class TicketUtil {
         }
         String cover = baseInfo.getCover();
         //拿到tiketPresenter去加载数据
-        ITicketPresenter ticketPresenter = PresenterManager.getInstance().getTicketPresenter();
+        ITicketPresenter ticketPresenter = PresenterManager.instance().getTicketPresenter();
         ticketPresenter.getTicket(title,url,cover);
         context.startActivity(new Intent(context,TicketActivity.class));
     }
