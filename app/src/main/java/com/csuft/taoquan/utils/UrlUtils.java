@@ -1,16 +1,16 @@
 package com.csuft.taoquan.utils;
 
 public class UrlUtils {
-    public static String createHomePageUrl(int materialId,int page) {
+    public static String createHomePageUrl(int materialId, int page) {
         return "discovery/" + materialId + "/" + page;
     }
 
-    public static String getCoverPath(String pict_url,int size) {
+    public static String getCoverPath(String pict_url, int size) {
         return "https:" + pict_url + "_" + size + "x" + size + ".jpg";
     }
 
     public static String getCoverPath(String pict_url) {
-        if(pict_url.startsWith("http") || pict_url.startsWith("https")) {
+        if (pict_url.startsWith("http") || pict_url.startsWith("https")) {
             return pict_url;
         } else {
             return "https:" + pict_url;
@@ -18,7 +18,7 @@ public class UrlUtils {
     }
 
     public static String getTicketUrl(String url) {
-        if(url.startsWith("http") || url.startsWith("https")) {
+        if (url.startsWith("http") || url.startsWith("https")) {
             return url;
         } else {
             return "https:" + url;

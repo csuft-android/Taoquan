@@ -57,7 +57,7 @@ public class TicketActivity extends BaseActivity implements ITicketPagerCallback
 
     @Override
     protected void initPresenter() {
-        mTicketPresenter = PresenterManager.getInstance().getTicketPresenter();
+        mTicketPresenter = PresenterManager.instance().getTicketPresenter();
         if(mTicketPresenter != null) {
             mTicketPresenter.registerViewCallback(this);
         }

@@ -4,18 +4,18 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitManager {
-    private volatile static  RetrofitManager ourInstance;
+    private volatile static RetrofitManager sRetrofitManager;
     private final Retrofit mRetrofit;
 
-    public static RetrofitManager getInstance() {
-        if (ourInstance==null) {
-            synchronized (RetrofitManager.class){
-                if (ourInstance==null) {
-                    ourInstance=new RetrofitManager();
+    public static RetrofitManager instance() {
+        if (sRetrofitManager == null) {
+            synchronized (RetrofitManager.class) {
+                if (sRetrofitManager == null) {
+                    sRetrofitManager = new RetrofitManager();
                 }
             }
         }
-        return ourInstance;
+        return sRetrofitManager;
     }
 
     private RetrofitManager() {

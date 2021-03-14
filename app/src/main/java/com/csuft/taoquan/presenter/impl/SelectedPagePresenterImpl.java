@@ -21,7 +21,7 @@ public class SelectedPagePresenterImpl implements ISelectedPagePresenter {
     private final Api mApi;
     public SelectedPagePresenterImpl() {
         //拿retrofit
-        Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
+        Retrofit retrofit = RetrofitManager.instance().getRetrofit();
         mApi = retrofit.create(Api.class);
     }
 

@@ -23,7 +23,7 @@ public class OnSellPagePresenterImpl implements IOnSellPagePresenter {
 
 
     public OnSellPagePresenterImpl() {
-        Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
+        Retrofit retrofit = RetrofitManager.instance().getRetrofit();
         mApi = retrofit.create(Api.class);
     }
 

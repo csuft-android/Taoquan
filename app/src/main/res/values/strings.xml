@@ -15,6 +15,6 @@
     <string name="text_on_sell_title">特惠宝贝</string>
     <string name="text_search_history">搜索历史</string>
     <string name="login_register">注册/登录</string>
-
+    <string name="text_personal_center">个人中心</string>
 
 </resources>

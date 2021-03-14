@@ -26,7 +26,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity implements IMainActivity{
+public class MainActivity extends BaseActivity implements IMainActivity {
 
     @BindView(R.id.main_navigation_bar)
     public BottomNavigationView mNavigationView;
@@ -36,34 +36,35 @@ public class MainActivity extends BaseActivity implements IMainActivity{
     private SearchFragment mSearchFragment;
     private PersonalCenterFragment mPersonCenterFragment;
     private FragmentManager mFm;
-    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT,RelativeLayout.LayoutParams.MATCH_PARENT);
-
+    RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
+    // 用来计算返回键的点击间隔时间
+    private long exitTime = 0;
     /**
      * 跳转到搜索界面
      */
     public void addSearchFragment() {
         mNavigationView.setVisibility(View.GONE);
-        lp.setMargins(0,0,0,0);
+        lp.setMargins(0, 0, 0, 0);
         findViewById(R.id.main_page_container).setLayoutParams(lp);
         switchFragment(mSearchFragment);
     }
 
     @Override
     public void backToHome() {
-        lp.setMargins(0,0,0, SizeUtils.dip2px(getBaseContext(),49));
+        lp.setMargins(0, 0, 0, SizeUtils.dip2px(getBaseContext(), 49));
         findViewById(R.id.main_page_container).setLayoutParams(lp);
         mNavigationView.setVisibility(View.VISIBLE);
         switchFragment(mHomeFragment);
     }
 
-    // 用来计算返回键的点击间隔时间
-    private long exitTime = 0;
+
+
     @Override
     public void onBackPressed() {
         Fragment fragment = lastOneFragment;
         if (fragment instanceof IBackFragment) {
             ((IBackFragment) fragment).onBackPressed();
-        } else{
+        } else {
             if ((System.currentTimeMillis() - exitTime) > 2000) {
                 ToastUtil.showToast("再按一次退出程序");
                 exitTime = System.currentTimeMillis();
@@ -99,7 +100,7 @@ public class MainActivity extends BaseActivity implements IMainActivity{
         mRedPacketFragment = new OnSellFragment();
         mSelectedFragment = new SelectedFragment();
         mSearchFragment = new SearchFragment();
-        mPersonCenterFragment =new PersonalCenterFragment();
+        mPersonCenterFragment = new PersonalCenterFragment();
         mFm = getSupportFragmentManager();
         switchFragment(mHomeFragment);
     }
@@ -115,7 +116,7 @@ public class MainActivity extends BaseActivity implements IMainActivity{
             } else if (item.getItemId() == R.id.red_packet) {
                 LogUtils.w(this, "切换到特惠");
                 switchFragment(mRedPacketFragment);
-            }else if(item.getItemId()==R.id.personal_center){
+            } else if (item.getItemId() == R.id.personal_center) {
                 switchFragment(mPersonCenterFragment);
             }
             return true;

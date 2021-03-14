@@ -37,7 +37,7 @@ public class TicketPresenterImpl implements ITicketPresenter {
         LogUtils.d(this,"cover -- > " + cover);
         String targetUrl = UrlUtils.getTicketUrl(url);
         //去获取淘口令
-        Retrofit retrofit = RetrofitManager.getInstance().getRetrofit();
+        Retrofit retrofit = RetrofitManager.instance().getRetrofit();
         Api api = retrofit.create(Api.class);
         TicketParams ticketParams = new TicketParams(targetUrl,title);
         Call<TicketResult> task = api.getTicket(ticketParams);

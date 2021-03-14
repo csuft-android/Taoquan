@@ -50,7 +50,7 @@ public class OnSellFragment extends BaseFragment implements IOnSellPageCallback,
     @Override
     protected void initPresenter() {
         super.initPresenter();
-        mOnSellPagePresenter = PresenterManager.getInstance().getOnSellPagePresenter();
+        mOnSellPagePresenter = PresenterManager.instance().getOnSellPagePresenter();
         mOnSellPagePresenter.registerViewCallback(this);
         mOnSellPagePresenter.getOnSellContent();
     }
